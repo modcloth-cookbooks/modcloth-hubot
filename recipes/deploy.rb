@@ -55,15 +55,18 @@ deploy_revision node['modcloth_hubot']['home'] do
   before_restart do
     execute 'echo before restart' do
       notifies :enable,
-        "service[#{node['modcloth_hubot']['service_name']}]", :immediately
+               "service[#{node['modcloth_hubot']['service_name']}]",
+               :immediately
     end
   end
   restart do
     execute 'echo restarting' do
       notifies :start,
-        "service[#{node['modcloth_hubot']['service_name']}]", :immediately
+               "service[#{node['modcloth_hubot']['service_name']}]",
+               :immediately
       notifies :restart,
-        "service[#{node['modcloth_hubot']['service_name']}]", :immediately
+               "service[#{node['modcloth_hubot']['service_name']}]",
+               :immediately
     end
   end
   only_if { deployable? }
