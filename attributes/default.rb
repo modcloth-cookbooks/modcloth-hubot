@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Cookbook Name:: modcloth-hubot
-# Recipe:: default
+# Attributes:: default
 #
 # Copyright 2013, ModCloth, Inc.
 #
@@ -24,10 +24,26 @@
 # SOFTWARE.
 #
 
-include_recipe 'modcloth-hubot::prereqs'
-include_recipe 'modcloth-hubot::user'
-include_recipe 'modcloth-hubot::deploy'
+default['modcloth_hubot']['user'] = 'hubot'
+default['modcloth_hubot']['group'] = 'hubot'
+default['modcloth_hubot']['gid'] = 1499
+default['modcloth_hubot']['home'] = '/home/hubot'
+default['modcloth_hubot']['bash_profile_template_file'] = 'bash_profile.sh.erb'
+default['modcloth_hubot']['bash_profile_template_cookbook'] = 'modcloth-hubot'
+default['modcloth_hubot']['bashrc_template_file'] = 'bashrc.sh.erb'
+default['modcloth_hubot']['bashrc_template_cookbook'] = 'modcloth-hubot'
 
-if node['modcloth_hubot']['nginx']['enabled']
-  include_recipe 'modcloth-hubot::nginx'
+default['modcloth_hubot']['nginx']['enabled'] = true
+
+default['nodejs']['install_method'] = 'package'
+
+case node['platform']
+when 'ubuntu'
+  require 'English'
+  df = Mixlib::ShellOut.new('df -TP')
+  df.run_command
+  data_mount = df.stdout.chomp.split($RS).grep(/\/data$/).first
+  if data_mount && data_mount.split[1] !~ /tmp/
+    default['modcloth_hubot']['home'] = '/data/hubot'
+  end
 end

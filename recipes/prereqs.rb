@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Cookbook Name:: modcloth-hubot
-# Recipe:: default
+# Recipe:: prereqs
 #
 # Copyright 2013, ModCloth, Inc.
 #
@@ -24,10 +24,5 @@
 # SOFTWARE.
 #
 
-include_recipe 'modcloth-hubot::prereqs'
-include_recipe 'modcloth-hubot::user'
-include_recipe 'modcloth-hubot::deploy'
-
-if node['modcloth_hubot']['nginx']['enabled']
-  include_recipe 'modcloth-hubot::nginx'
-end
+include_recipe 'git'
+include_recipe 'nodejs'

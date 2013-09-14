@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Cookbook Name:: modcloth-hubot
-# Recipe:: default
+# Recipe:: user
 #
 # Copyright 2013, ModCloth, Inc.
 #
@@ -24,10 +24,36 @@
 # SOFTWARE.
 #
 
-include_recipe 'modcloth-hubot::prereqs'
-include_recipe 'modcloth-hubot::user'
-include_recipe 'modcloth-hubot::deploy'
+group node['modcloth_hubot']['group'] do
+  gid node['modcloth_hubot']['gid']
+end
 
-if node['modcloth_hubot']['nginx']['enabled']
-  include_recipe 'modcloth-hubot::nginx'
+user node['modcloth_hubot']['user'] do
+  gid node['modcloth_hubot']['group']
+  comment 'Hubot User'
+  shell '/bin/bash'
+  home node['modcloth_hubot']['home']
+end
+
+directory node['modcloth_hubot']['home'] do
+  owner node['modcloth_hubot']['user']
+  group node['modcloth_hubot']['group']
+  recursive true
+  mode 0755
+end
+
+template "#{node['modcloth_hubot']['home']}/.bash_profile" do
+  source node['modcloth_hubot']['bash_profile_template_file']
+  cookbook node['modcloth_hubot']['bash_profile_template_cookbook']
+  owner node['modcloth_hubot']['user']
+  group node['modcloth_hubot']['group']
+  mode 0600
+end
+
+template "#{node['modcloth_hubot']['home']}/.bashrc" do
+  source node['modcloth_hubot']['bashrc_template_file']
+  cookbook node['modcloth_hubot']['bashrc_template_cookbook']
+  owner node['modcloth_hubot']['user']
+  group node['modcloth_hubot']['group']
+  mode 0600
 end
