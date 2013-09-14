@@ -1,0 +1,5 @@
+# Dropped off by Chef for <%= node.name %>
+HUBOT_ARGV='--adapter <%= node['modcloth_hubot']['adapter'] %> --name <%= node['modcloth_hubot']['name'] %>'
+<% node['modcloth_hubot']['environment'].each do |k, v| %>
+<%= k %>='<%= v %>'
+<% end %>

@@ -57,3 +57,35 @@ template "#{node['modcloth_hubot']['home']}/.bashrc" do
   group node['modcloth_hubot']['group']
   mode 0600
 end
+
+template "#{node['modcloth_hubot']['home']}/deploy-ssh-wrapper" do
+  source node['modcloth_hubot']['ssh_wrapper_template_file']
+  cookbook node['modcloth_hubot']['ssh_wrapper_template_cookbook']
+  owner node['modcloth_hubot']['user']
+  group node['modcloth_hubot']['group']
+  mode 0700
+  only_if { has_ssh_key? }
+end
+
+directory "#{node['modcloth_hubot']['home']}/.ssh" do
+  owner node['modcloth_hubot']['user']
+  group node['modcloth_hubot']['group']
+  mode 0700
+  only_if { has_ssh_key? }
+end
+
+file "#{node['modcloth_hubot']['home']}/.ssh/id_rsa" do
+  content node['modcloth_hubot']['id_rsa']
+  owner node['modcloth_hubot']['user']
+  group node['modcloth_hubot']['group']
+  mode 0600
+  only_if { has_ssh_key? }
+end
+
+file "#{node['modcloth_hubot']['home']}/.ssh/id_rsa.pub" do
+  content node['modcloth_hubot']['id_rsa_pub']
+  owner node['modcloth_hubot']['user']
+  group node['modcloth_hubot']['group']
+  mode 0600
+  only_if { has_ssh_key? }
+end

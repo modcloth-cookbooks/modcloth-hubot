@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Dropped off by Chef for <%= node.name %>
+env ssh -o 'StrictHostKeyChecking=no' -i '<%= node['modcloth_hubot']['home'] %>/.ssh/id_rsa' "$1" "$2"

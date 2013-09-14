@@ -28,10 +28,26 @@ default['modcloth_hubot']['user'] = 'hubot'
 default['modcloth_hubot']['group'] = 'hubot'
 default['modcloth_hubot']['gid'] = 1499
 default['modcloth_hubot']['home'] = '/home/hubot'
+default['modcloth_hubot']['id_rsa'] = ''
+default['modcloth_hubot']['id_rsa_pub'] = ''
 default['modcloth_hubot']['bash_profile_template_file'] = 'bash_profile.sh.erb'
 default['modcloth_hubot']['bash_profile_template_cookbook'] = 'modcloth-hubot'
 default['modcloth_hubot']['bashrc_template_file'] = 'bashrc.sh.erb'
 default['modcloth_hubot']['bashrc_template_cookbook'] = 'modcloth-hubot'
+default['modcloth_hubot']['ssh_wrapper_template_file'] = 'ssh_wrapper.sh.erb'
+default['modcloth_hubot']['ssh_wrapper_template_cookbook'] = 'modcloth-hubot'
+
+default['modcloth_hubot']['name'] = 'hubot'
+default['modcloth_hubot']['repo'] = nil
+default['modcloth_hubot']['revision'] = 'HEAD'
+default['modcloth_hubot']['deploy_action'] = 'deploy'
+default['modcloth_hubot']['service_name'] = 'hubot'
+default['modcloth_hubot']['environment'] = {}
+
+default['modcloth_hubot']['upstart_conf_template_file'] = 'hubot.conf.erb'
+default['modcloth_hubot']['upstart_conf_cookbook'] = 'modcloth-hubot'
+default['modcloth_hubot']['etc_default_hubot_template_file'] = 'hubot.conf.erb'
+default['modcloth_hubot']['etc_default_hubot_cookbook'] = 'modcloth-hubot'
 
 default['modcloth_hubot']['nginx']['enabled'] = true
 
