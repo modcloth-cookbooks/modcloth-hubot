@@ -102,11 +102,29 @@ Vagrant.configure('2') do |config|
         'environment' => {
           'PORT' => '9420'
         },
-        'adapter' => 'shell'
+        'adapter' => 'shell',
+        'nginx' => {
+          'enabled' => true,
+          'auth_basic' => {
+            'enabled' => true,
+            'users' => {
+              'herp' => '{PLAIN}derp',
+              'spaghattanadle' =>
+                '{SSHA}8+WLSB8HEvx0s8bNIrghuvOhp+xkcTRhN1l6QmROd2RsK1ZhS' <<
+                'nlUWENxVzlPbFFpUVVzQQ=='
+            },
+          },
+          'ssl' => {
+            'enabled' => true,
+            'crt_file' => '/vagrant/test/ssl/modcloth-hubot-berkshelf.crt',
+            'key_file' => '/vagrant/test/ssl/modcloth-hubot-berkshelf.key',
+          }
+        }
       }
     }
     chef.run_list = [
-      'recipe[modcloth-hubot::default]'
+      'recipe[modcloth-hubot::default]',
+      'minitest-handler',
     ]
   end
 end

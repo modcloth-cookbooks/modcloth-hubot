@@ -1,5 +1,9 @@
 # encoding: utf-8
 
+require 'base64'
+require 'digest/sha1'
+require 'securerandom'
+
 # ModClothHubot defines a few helper-y things used in recipes and resources
 module ModClothHubot
   def deployable?
@@ -19,6 +23,17 @@ module ModClothHubot
     start.run_command
     start.error!
   end
+
+  def ensure_hashed_password(password)
+    return password if password =~ /^\{(SSHA|PLAIN|SHA)\}/
+    salt = SecureRandom.base64(24)
+    base64_encoded = Base64.encode64(
+      "#{Digest::SHA1.digest("#{password}#{salt}")}#{salt}"
+    )
+    "{SSHA}#{base64_encoded.chomp.gsub(/\n/, '')}"
+  end
+
+  module_function :ensure_hashed_password
 
   private
 

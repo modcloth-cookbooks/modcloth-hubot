@@ -1,0 +1,51 @@
+SHA1 Fingerprint=5C:CC:E4:65:35:41:74:D2:8B:BC:C9:64:7D:3C:D0:F9:5E:A4:76:BF
+Certificate:
+    Data:
+        Version: 1 (0x0)
+        Serial Number:
+            de:ca:27:dc:eb:53:59:49
+        Signature Algorithm: sha1WithRSAEncryption
+        Issuer: C=US, ST=PA, L=Pittsburgh, O=ModCloth, Inc., OU=Shredded Cheese Authority, CN=modcloth-hubot-berkshelf/emailAddress=github+modcloth-hubot-cookbook@modcloth.com
+        Validity
+            Not Before: Sep 15 13:31:12 2013 GMT
+            Not After : Sep 13 13:31:12 2023 GMT
+        Subject: C=US, ST=PA, L=Pittsburgh, O=ModCloth, Inc., OU=Shredded Cheese Authority, CN=modcloth-hubot-berkshelf/emailAddress=github+modcloth-hubot-cookbook@modcloth.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+            RSA Public Key: (2048 bit)
+                Modulus (2048 bit):
+                    00:cc:23:e5:a5:3c:82:14:48:be:c4:ff:86:39:2e:
+                    9a:5e:be:1b:06:a3:79:34:03:fa:a5:f5:96:e5:e1:
+                    8b:a0:dc:9e:a0:40:af:8a:86:68:fd:02:b4:c0:47:
+                    42:7c:f6:1c:61:02:17:aa:3a:c6:4e:a8:a4:6b:9a:
+                    26:24:bd:eb:fc:69:c8:00:77:b7:8c:2f:c5:32:d7:
+                    04:59:43:50:ef:e8:ed:ce:8d:f6:dc:07:13:6b:9a:
+                    06:56:7c:ab:22:3a:fb:68:d5:b2:61:fa:b0:54:08:
+                    4b:8d:de:ee:ac:22:28:24:3a:97:9e:c6:50:2c:45:
+                    34:6c:ce:34:93:d3:6b:cf:a2:ab:37:7f:6f:42:28:
+                    06:c1:bc:27:dd:87:87:8d:93:bd:1f:12:19:a0:3a:
+                    17:81:7b:7b:e9:95:47:f1:90:da:c0:11:7b:7b:e1:
+                    6a:8f:23:a4:c1:02:e6:54:d7:d7:d2:f9:66:7e:03:
+                    b6:34:20:90:28:d3:3c:de:68:77:22:42:ba:09:79:
+                    3c:dd:fc:17:7e:07:74:67:a8:c8:52:22:ea:38:dc:
+                    e4:93:a8:d1:12:69:62:c8:20:ab:ed:b1:9f:10:e6:
+                    91:84:d0:7c:7a:80:b3:8f:2d:1d:77:8c:d6:a9:07:
+                    60:4b:b1:c8:3d:12:f2:a5:dc:d7:2c:8f:d1:e1:37:
+                    84:2b
+                Exponent: 65537 (0x10001)
+    Signature Algorithm: sha1WithRSAEncryption
+        29:0f:9d:0b:9b:4b:cf:14:6a:c9:d9:65:e6:51:f2:12:7b:72:
+        d6:63:c8:b3:69:b5:93:81:7f:af:c3:76:bf:14:5e:45:9e:25:
+        6a:a8:e4:4b:f6:bd:c7:11:08:09:89:2d:d9:63:39:63:d7:9d:
+        5e:0f:bc:a9:ee:52:88:8d:08:4f:de:e5:f3:6f:bb:29:7a:0c:
+        1d:60:63:7f:40:4a:ce:0f:29:8a:9e:ce:2c:b4:66:d2:ee:f4:
+        d3:8d:7d:61:a8:b4:2b:de:e3:e5:aa:e8:2d:ba:93:06:02:ee:
+        bc:45:df:31:80:93:26:6d:6d:4b:72:50:42:a2:b5:a4:e0:5d:
+        79:9c:90:b8:8a:d3:a2:a3:b0:fd:2d:93:08:ee:e8:42:a3:bd:
+        23:f0:87:b2:51:1e:3f:cb:de:eb:8e:07:b5:a3:8a:8b:1f:df:
+        c0:c2:6c:d7:28:1e:c6:13:3e:6c:60:17:83:85:d6:98:97:67:
+        9c:58:6f:29:a4:48:ae:99:92:63:c5:74:fc:22:c0:14:b2:36:
+        b8:45:2b:34:7e:3b:76:fc:8a:fb:f2:c3:33:46:d5:fd:35:95:
+        a7:37:77:3f:37:98:54:86:65:b0:49:7b:db:60:02:1f:c6:2c:
+        1f:e7:f5:40:a1:c5:e9:bf:fb:33:fe:a4:57:be:a3:7c:cb:ff:
+        1c:b1:98:be

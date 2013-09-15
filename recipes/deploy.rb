@@ -44,6 +44,7 @@ end
 
 service node['modcloth_hubot']['service_name'] do
   provider Chef::Provider::Service::Upstart
+  supports start: true, restart: true, stop: true
 end
 
 %W(
@@ -74,7 +75,8 @@ deploy_revision node['modcloth_hubot']['home'] do
     ruby_block "restart #{node['modcloth_hubot']['service_name']}" do
       # For some reason I'm unable to notify the service[hubot] resource from
       # inside here, as the restart_command proc appears to be getting executed
-      # before the resource collection is fully built (???)
+      # before the resource collection is fully built (???)  Hence the ugliness
+      # in ./libraries/modcloth_hubot.rb seen here as #restart_hook.
       block { restart_hubot }
     end
   end

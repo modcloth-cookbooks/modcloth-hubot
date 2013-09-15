@@ -49,11 +49,26 @@ default['modcloth_hubot']['environment'] = {}
 
 default['modcloth_hubot']['upstart_conf_template_file'] = 'hubot.conf.erb'
 default['modcloth_hubot']['upstart_conf_cookbook'] = 'modcloth-hubot'
-default['modcloth_hubot']['etc_default_hubot_template_file'] =
-  'etc-default-hubot.sh.erb'
+default['modcloth_hubot']['etc_default_hubot_template_file'] = 'etc-default-hubot.sh.erb'
 default['modcloth_hubot']['etc_default_hubot_cookbook'] = 'modcloth-hubot'
 
 default['modcloth_hubot']['nginx']['enabled'] = true
+default['modcloth_hubot']['nginx']['install_nginx'] = true
+default['modcloth_hubot']['nginx']['listen_port'] = 14_990
+default['modcloth_hubot']['nginx']['server_name_aliases'] = []
+default['modcloth_hubot']['nginx']['site_name'] = 'hubot'
+default['modcloth_hubot']['nginx']['site_template_file'] = 'nginx-site.conf.erb'
+default['modcloth_hubot']['nginx']['site_template_cookbook'] = 'modcloth-hubot'
+default['modcloth_hubot']['nginx']['auth_basic']['enabled'] = false
+default['modcloth_hubot']['nginx']['auth_basic']['realm'] = 'Hubot'
+default['modcloth_hubot']['nginx']['auth_basic']['users'] = {}
+default['modcloth_hubot']['nginx']['auth_basic']['user_file'] = "#{node['nginx']['dir']}/hubot.htpasswd"
+default['modcloth_hubot']['nginx']['auth_basic']['user_file_template'] = 'htpasswd.erb'
+default['modcloth_hubot']['nginx']['auth_basic']['user_file_cookbook'] = 'modcloth-hubot'
+default['modcloth_hubot']['nginx']['ssl']['enabled'] = false
+default['modcloth_hubot']['nginx']['ssl']['crt_file'] = nil
+default['modcloth_hubot']['nginx']['ssl']['key_file'] = nil
+
 default['modcloth_hubot']['redis']['enabled'] = true
 default['modcloth_hubot']['redis']['packages'] = %w(redis-server)
 
