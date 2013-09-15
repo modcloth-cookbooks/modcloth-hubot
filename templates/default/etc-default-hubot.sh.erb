@@ -1,5 +1,8 @@
 # Dropped off by Chef for <%= node.name %>
 HUBOT_ARGV='--adapter <%= node['modcloth_hubot']['adapter'] %> --name <%= node['modcloth_hubot']['name'] %>'
+<% unless node['modcloth_hubot']['environment']['PORT'] %>
+PORT='<%= node['modcloth_hubot']['http_port'] %>'
+<% end %>
 <% node['modcloth_hubot']['environment'].each do |k, v| %>
 <%= k %>='<%= v %>'
 <% end %>

@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Cookbook Name:: modcloth-hubot
-# Recipe:: default
+# Recipe:: redis
 #
 # Copyright 2013, ModCloth, Inc.
 #
@@ -24,14 +24,6 @@
 # SOFTWARE.
 #
 
-include_recipe 'modcloth-hubot::prereqs'
-include_recipe 'modcloth-hubot::user'
-include_recipe 'modcloth-hubot::deploy'
-
-if node['modcloth_hubot']['nginx']['enabled']
-  include_recipe 'modcloth-hubot::nginx'
-end
-
-if node['modcloth_hubot']['redis']['enabled']
-  include_recipe 'modcloth-hubot::redis'
+node['modcloth_hubot']['redis']['packages'].each do |package_name|
+  package package_name
 end

@@ -44,30 +44,58 @@ end
 
 service node['modcloth_hubot']['service_name'] do
   provider Chef::Provider::Service::Upstart
-  action :nothing
+end
+
+%W(
+  #{node['modcloth_hubot']['home']}/shared
+  #{node['modcloth_hubot']['home']}/shared/node_modules
+).each do |dirname|
+  directory dirname do
+    owner node['modcloth_hubot']['user']
+    group node['modcloth_hubot']['group']
+    mode 0750
+  end
 end
 
 deploy_revision node['modcloth_hubot']['home'] do
+  user node['modcloth_hubot']['user']
   repo node['modcloth_hubot']['repo']
   revision node['modcloth_hubot']['revision']
-  action node['modcloth_hubot']['deploy_action'].to_sym
+
+  symlink_before_migrate.clear
+  create_dirs_before_symlink.clear
+  purge_before_symlink.clear
+
   migrate false
-  before_restart do
-    execute 'echo before restart' do
-      notifies :enable,
-               "service[#{node['modcloth_hubot']['service_name']}]",
-               :immediately
+  rollback_on_error node['modcloth_hubot']['rollback_on_error']
+  symlinks 'node_modules' => 'node_modules'
+
+  restart_command do
+    ruby_block "restart #{node['modcloth_hubot']['service_name']}" do
+      # For some reason I'm unable to notify the service[hubot] resource from
+      # inside here, as the restart_command proc appears to be getting executed
+      # before the resource collection is fully built (???)
+      block do
+        restart = nil
+        case node['platform']
+        when 'ubuntu'
+          restart = Mixlib::ShellOut.new(
+            "initctl restart #{node['modcloth_hubot']['service_name']}"
+          )
+        when 'smartos'
+          restart = Mixlib::ShellOut.new(
+            "svcadm restart #{node['modcloth_hubot']['service_name']}"
+          )
+        else
+          raise "No idea how to restart on #{node['platform']}!"
+        end
+
+        restart.run_command
+        restart.error!
+      end
     end
   end
-  restart do
-    execute 'echo restarting' do
-      notifies :start,
-               "service[#{node['modcloth_hubot']['service_name']}]",
-               :immediately
-      notifies :restart,
-               "service[#{node['modcloth_hubot']['service_name']}]",
-               :immediately
-    end
-  end
+
+  action node['modcloth_hubot']['deploy_action'].to_sym
   only_if { deployable? }
 end

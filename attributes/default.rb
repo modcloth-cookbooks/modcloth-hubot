@@ -38,18 +38,24 @@ default['modcloth_hubot']['ssh_wrapper_template_file'] = 'ssh_wrapper.sh.erb'
 default['modcloth_hubot']['ssh_wrapper_template_cookbook'] = 'modcloth-hubot'
 
 default['modcloth_hubot']['name'] = 'hubot'
+default['modcloth_hubot']['adapter'] = 'campfire'
+default['modcloth_hubot']['http_port'] = 9425
 default['modcloth_hubot']['repo'] = nil
 default['modcloth_hubot']['revision'] = 'HEAD'
 default['modcloth_hubot']['deploy_action'] = 'deploy'
+default['modcloth_hubot']['rollback_on_error'] = true
 default['modcloth_hubot']['service_name'] = 'hubot'
 default['modcloth_hubot']['environment'] = {}
 
 default['modcloth_hubot']['upstart_conf_template_file'] = 'hubot.conf.erb'
 default['modcloth_hubot']['upstart_conf_cookbook'] = 'modcloth-hubot'
-default['modcloth_hubot']['etc_default_hubot_template_file'] = 'hubot.conf.erb'
+default['modcloth_hubot']['etc_default_hubot_template_file'] =
+  'etc-default-hubot.sh.erb'
 default['modcloth_hubot']['etc_default_hubot_cookbook'] = 'modcloth-hubot'
 
 default['modcloth_hubot']['nginx']['enabled'] = true
+default['modcloth_hubot']['redis']['enabled'] = true
+default['modcloth_hubot']['redis']['packages'] = %w(redis-server)
 
 default['nodejs']['install_method'] = 'package'
 
@@ -62,4 +68,6 @@ when 'ubuntu'
   if data_mount && data_mount.split[1] !~ /tmp/
     default['modcloth_hubot']['home'] = '/data/hubot'
   end
+when 'smartos'
+  default['modcloth_hubot']['redis']['packages'] = %w(redis)
 end
