@@ -2,6 +2,8 @@
 
 UBUNTU_PROVISION_SCRIPT = <<-EOF
 if [ ! -d /vagrant/test/robby/.git ] ; then
+  apt-get update -y -qq
+  apt-get install -y -qq git git-core
   pushd /vagrant/test/robby
   git init .
   git add .
