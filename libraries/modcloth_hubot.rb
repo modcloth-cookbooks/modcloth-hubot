@@ -11,7 +11,7 @@ module ModClothHubot
   end
 
   def restart_hubot
-    start, restart = send("start_restart_#{node['platform']}")
+    restart, start = send("restart_start_#{node['platform']}")
     restart.run_command
     restart.error!
   rescue => e
@@ -22,7 +22,7 @@ module ModClothHubot
 
   private
 
-  def start_restart_ubuntu
+  def restart_start_ubuntu
     [
       Mixlib::ShellOut.new(
         "initctl restart #{node['modcloth_hubot']['service_name']}"
@@ -33,7 +33,7 @@ module ModClothHubot
     ]
   end
 
-  def start_restart_smartos
+  def restart_start_smartos
     [
       Mixlib::ShellOut.new(
         "svcadm restart #{node['modcloth_hubot']['service_name']}"

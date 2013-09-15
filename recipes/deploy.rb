@@ -75,10 +75,7 @@ deploy_revision node['modcloth_hubot']['home'] do
       # For some reason I'm unable to notify the service[hubot] resource from
       # inside here, as the restart_command proc appears to be getting executed
       # before the resource collection is fully built (???)
-      block do
-        include ModClothHubot
-        restart_hubot
-      end
+      block { restart_hubot }
     end
   end
 
