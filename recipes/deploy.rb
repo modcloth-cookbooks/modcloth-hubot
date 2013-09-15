@@ -76,35 +76,8 @@ deploy_revision node['modcloth_hubot']['home'] do
       # inside here, as the restart_command proc appears to be getting executed
       # before the resource collection is fully built (???)
       block do
-        restart = nil
-        start = nil
-        case node['platform']
-        when 'ubuntu'
-          restart = Mixlib::ShellOut.new(
-            "initctl restart #{node['modcloth_hubot']['service_name']}"
-          )
-          start = Mixlib::ShellOut.new(
-            "initctl start #{node['modcloth_hubot']['service_name']}"
-          )
-        when 'smartos'
-          restart = Mixlib::ShellOut.new(
-            "svcadm restart #{node['modcloth_hubot']['service_name']}"
-          )
-          start = Mixlib::ShellOut.new(
-            "svcadm enable -s #{node['modcloth_hubot']['service_name']}"
-          )
-        else
-          raise "No idea how to restart on #{node['platform']}!"
-        end
-
-        begin
-          restart.run_command
-          restart.error!
-        rescue => e
-          Chef::Log.warn("Failed to restart, so just starting: #{e}")
-          start.run_command
-          start.error!
-        end
+        include ModClothHubot
+        restart_hubot
       end
     end
   end
