@@ -24,5 +24,5 @@
 # SOFTWARE.
 #
 
-include_recipe 'git'
-include_recipe 'nodejs'
+include_recipe 'git' if node['modcloth_hubot']['install_git']
+include_recipe 'nodejs' if node['modcloth_hubot']['install_nodejs']

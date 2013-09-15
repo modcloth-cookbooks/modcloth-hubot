@@ -74,6 +74,30 @@ directory "#{node['modcloth_hubot']['home']}/.ssh" do
   only_if { has_ssh_key? }
 end
 
+file "#{node['modcloth_hubot']['home']}/.ssh/known_hosts" do
+  owner node['modcloth_hubot']['user']
+  group node['modcloth_hubot']['group']
+  mode 0600
+  action :touch
+end
+
+known_hosts = "#{node['modcloth_hubot']['home']}/.ssh/known_hosts"
+ssh_keyscan_command = value_for_platform(
+  'ubuntu' => {
+    'default' => 'ssh-keyscan -H github.com'
+  },
+  'smartos' => {
+    'default' => 'ssh-keyscan -t rsa github.com'
+  }
+)
+
+bash 'add github.com to known hosts' do
+  code "#{ssh_keyscan_command} >> #{known_hosts}"
+  user node['modcloth_hubot']['user']
+  group node['modcloth_hubot']['group']
+  not_if "ssh-keygen -f #{known_hosts} -H -F github.com | grep 'github.com'"
+end
+
 file "#{node['modcloth_hubot']['home']}/.ssh/id_rsa" do
   content node['modcloth_hubot']['id_rsa']
   owner node['modcloth_hubot']['user']

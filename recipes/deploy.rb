@@ -42,8 +42,41 @@ template "/etc/init/#{node['modcloth_hubot']['service_name']}.conf" do
   only_if { platform?('ubuntu') }
 end
 
+smf node['modcloth_hubot']['service_name'] do
+  user node['modcloth_hubot']['user']
+  group node['modcloth_hubot']['group']
+  start_command "bin/hubot --adapter #{node['modcloth_hubot']['adapter']} " <<
+                          "--name #{node['modcloth_hubot']['name']}"
+  stop_command ':kill'
+  working_directory "#{node['modcloth_hubot']['home']}/current"
+  environment node['modcloth_hubot']['environment'].merge(
+    'PORT' => node['modcloth_hubot']['environment']['PORT'] ||
+                node['modcloth_hubot']['http_port'],
+    'HOME' => node['modcloth_hubot']['home'],
+    'PATH' => %W(
+      #{node['modcloth_hubot']['home']}/shared/node_modules/.bin
+      /opt/local/bin
+      /opt/local/sbin
+      /usr/bin
+      /usr/sbin
+    ).join(':')
+  )
+  duration 'child'
+  notifies :enable, "service[#{node['modcloth_hubot']['service_name']}]"
+  only_if { platform?('smartos') }
+end
+
+service_provider = value_for_platform(
+  'ubuntu' => {
+    'default' => Chef::Provider::Service::Upstart
+  },
+  'smartos' => {
+    'default' => Chef::Provider::Service::Solaris
+  },
+)
+
 service node['modcloth_hubot']['service_name'] do
-  provider Chef::Provider::Service::Upstart
+  provider service_provider
   supports start: true, restart: true, stop: true
 end
 
