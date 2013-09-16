@@ -24,6 +24,14 @@ module ModClothHubot
     start.error!
   end
 
+  def needs_to_be_disabled?
+    svcs = Mixlib::ShellOut.new(
+      "svcs -H -o STA #{node['modcloth_hubot']['service_name']}"
+    )
+    svcs.run_command
+    svcs.stdout.chomp =~ /^(MNT|DGD|OFF)/
+  end
+
   def ensure_hashed_password(password)
     return password if password =~ /^\{(SSHA|PLAIN|SHA)\}/
     salt = SecureRandom.base64(24)

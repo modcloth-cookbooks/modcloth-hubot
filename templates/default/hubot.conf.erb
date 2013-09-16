@@ -32,12 +32,10 @@ stop on runlevel [!2345]
 
 setuid <%= node['modcloth_hubot']['user'] %>
 umask 022
-chdir <%= node['modcloth_hubot']['home'] %>/current
 
 respawn
 respawn limit 5 60
 
 script
-  . /etc/default/<%= node['modcloth_hubot']['service_name'] %>
-  exec bin/hubot $HUBOT_ARGV
+  exec <%= node['modcloth_hubot']['home'] %>/shared/hubot-runner
 end script

@@ -100,7 +100,8 @@ Vagrant.configure('2') do |config|
           'd.buch@failb0wl',
         'repo' => '/vagrant/test/robby',
         'environment' => {
-          'PORT' => '9420'
+          'PORT' => '9420',
+          'HERP' => 'DERP'
         },
         'adapter' => 'shell',
         'nginx' => {

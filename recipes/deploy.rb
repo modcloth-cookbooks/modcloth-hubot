@@ -24,13 +24,14 @@
 # SOFTWARE.
 #
 
+hubot_runner = "#{node['modcloth_hubot']['home']}/shared/hubot-runner"
+
 template "/etc/default/#{node['modcloth_hubot']['service_name']}" do
   source node['modcloth_hubot']['etc_default_hubot_template_file']
   cookbook node['modcloth_hubot']['etc_default_hubot_cookbook']
   owner node['modcloth_hubot']['user']
   group node['modcloth_hubot']['group']
   mode 0400
-  only_if { platform?('ubuntu') }
 end
 
 template "/etc/init/#{node['modcloth_hubot']['service_name']}.conf" do
@@ -45,22 +46,11 @@ end
 smf node['modcloth_hubot']['service_name'] do
   user node['modcloth_hubot']['user']
   group node['modcloth_hubot']['group']
-  start_command "bin/hubot --adapter #{node['modcloth_hubot']['adapter']} " <<
-                          "--name #{node['modcloth_hubot']['name']}"
+  start_command hubot_runner
   stop_command ':kill'
   working_directory "#{node['modcloth_hubot']['home']}/current"
-  environment node['modcloth_hubot']['environment'].merge(
-    'PORT' => node['modcloth_hubot']['environment']['PORT'] ||
-                node['modcloth_hubot']['http_port'],
-    'HOME' => node['modcloth_hubot']['home'],
-    'PATH' => %W(
-      #{node['modcloth_hubot']['home']}/shared/node_modules/.bin
-      /opt/local/bin
-      /opt/local/sbin
-      /usr/bin
-      /usr/sbin
-    ).join(':')
-  )
+  environment 'HOME' => node['modcloth_hubot']['home'],
+              'PATH' => '/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin'
   duration 'child'
   notifies :enable, "service[#{node['modcloth_hubot']['service_name']}]"
   only_if { platform?('smartos') }
@@ -89,6 +79,19 @@ end
     group node['modcloth_hubot']['group']
     mode 0750
   end
+end
+
+template hubot_runner do
+  source node['modcloth_hubot']['runner_template_file']
+  cookbook node['modcloth_hubot']['runner_template_cookbook']
+  owner node['modcloth_hubot']['user']
+  group node['modcloth_hubot']['group']
+  mode 0700
+end
+
+bash 'disable service' do
+  code "svcadm disable -s #{node['modcloth_hubot']['service_name']}"
+  only_if { platform?('smartos') && needs_to_be_disabled? }
 end
 
 deploy_revision node['modcloth_hubot']['home'] do
