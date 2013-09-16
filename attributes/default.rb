@@ -36,7 +36,8 @@ default['modcloth_hubot']['bashrc_template_file'] = 'bashrc.sh.erb'
 default['modcloth_hubot']['bashrc_template_cookbook'] = 'modcloth-hubot'
 default['modcloth_hubot']['ssh_wrapper_template_file'] = 'ssh_wrapper.sh.erb'
 default['modcloth_hubot']['ssh_wrapper_template_cookbook'] = 'modcloth-hubot'
-
+default['modcloth_hubot']['runner_template_file'] = 'hubot-runner.sh.erb'
+default['modcloth_hubot']['runner_template_cookbook'] = 'modcloth-hubot'
 default['modcloth_hubot']['name'] = 'hubot'
 default['modcloth_hubot']['adapter'] = 'campfire'
 default['modcloth_hubot']['http_port'] = 9425
@@ -46,6 +47,7 @@ default['modcloth_hubot']['deploy_action'] = 'deploy'
 default['modcloth_hubot']['rollback_on_error'] = true
 default['modcloth_hubot']['service_name'] = 'hubot'
 default['modcloth_hubot']['environment'] = {}
+default['modcloth_hubot']['env_cascade'] = %W(.env /etc/default/#{node['modcloth_hubot']['service_name']})
 
 default['modcloth_hubot']['upstart_conf_template_file'] = 'hubot.conf.erb'
 default['modcloth_hubot']['upstart_conf_cookbook'] = 'modcloth-hubot'
