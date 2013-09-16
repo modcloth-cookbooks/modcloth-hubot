@@ -6,3 +6,4 @@ PORT='<%= node['modcloth_hubot']['http_port'] %>'
 <% node['modcloth_hubot']['environment'].each do |k, v| %>
 <%= k %>='<%= v %>'
 <% end %>
+PATH="<%= node['modcloth_hubot']['home'] %>/shared/node_modules/.bin:$PATH"

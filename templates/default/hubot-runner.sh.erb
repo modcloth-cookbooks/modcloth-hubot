@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+set -a
+cd "<%= node['modcloth_hubot']['home'] %>/current"
+<% node['modcloth_hubot']['env_cascade'].each do |env_file| %>
+if [ -e "<%= env_file %>" ] ; then
+  source "<%= env_file %>"
+fi
+<% end %>
+exec bin/hubot $HUBOT_ARGV
