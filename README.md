@@ -102,6 +102,51 @@ The following attributes allow injection of custom templates via wrapper cookboo
 Usage
 =====
 
+Include `recipe[modcloth-hubot]` in your `run_list`.  Set some attributes however you prefer so that at least the
+following is present:
+
+- `node['modcloth_hubot']['repo']`
+
+
+If the repository includes a `.env` file at the top level that contains whatever environmental variables are needed by
+your Hubot instance, no further configuration is necessary.  Alternatively, environmental variables may be injected into
+the instance environment via the `modcloth_hubot.environment` attribute, e.g.:
+
+    default_attributes(
+      'modcloth_hubot' => {
+        'environment' => {
+          'HUBOT_CAMPFIRE_ACCOUNT' => 'foobar',
+          'HUBOT_CAMPFIRE_TOKEN' => 'abcdefabcdefabcdefabcdefabcdefabcdef',
+          'HUBOT_CAMPFIRE_ROOMS' => '123,456',
+        }
+      }
+    )
+
+## nginx support
+
+If you'd like your Hubot to live behind nginx with some niceties like SSL and basic auth, you might configure the
+your `modcloth_hubot.nginx.*` attributes like so:
+
+    default_attributes(
+      'modcloth_hubot' => {
+        # ...
+        'nginx' => {
+          'auth_basic' => {
+            'enabled' => true,
+            'users' => {
+              'foo' => '{SSHA}eYiG23Clo7VBTNz3GSO5VarX5exrUnNiSFVzOXRDd1N0SG94VjdxZENUK00wOGFNV2J2MA==',
+              'less-paranoid' => 'aoeu'
+            }
+          },
+          'ssl' => {
+            'enabled' => true,
+            'crt_file' => '/etc/nginx/ssl/wildcard.example.com.crt',
+            'key_file' => '/etc/nginx/ssl/wildcard.example.com.key'
+          }
+        }
+      }
+    )
+
 
 See Also
 ========
