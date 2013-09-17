@@ -124,7 +124,7 @@ the instance environment via the `modcloth_hubot.environment` attribute, e.g.:
 
 ## nginx support
 
-If you'd like your Hubot to live behind nginx with some niceties like SSL and basic auth, you might configure the
+If you'd like your Hubot to live behind nginx with some niceties like SSL and basic auth, you might configure
 your `modcloth_hubot.nginx.*` attributes like so:
 
     default_attributes(
