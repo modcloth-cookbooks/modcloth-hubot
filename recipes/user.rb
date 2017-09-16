@@ -71,7 +71,6 @@ directory "#{node['modcloth_hubot']['home']}/.ssh" do
   owner node['modcloth_hubot']['user']
   group node['modcloth_hubot']['group']
   mode 0700
-  only_if { has_ssh_key? }
 end
 
 file "#{node['modcloth_hubot']['home']}/.ssh/known_hosts" do
@@ -88,6 +87,9 @@ ssh_keyscan_command = value_for_platform(
   },
   'smartos' => {
     'default' => 'ssh-keyscan -t rsa github.com'
+  },
+  'default' => {
+    'default' => 'ssh-keyscan -t rsa github.com'
   }
 )
 
@@ -96,6 +98,7 @@ bash 'add github.com to known hosts' do
   user node['modcloth_hubot']['user']
   group node['modcloth_hubot']['group']
   not_if "ssh-keygen -f #{known_hosts} -H -F github.com | grep 'github.com'"
+  only_if { has_ssh_key? }
 end
 
 file "#{node['modcloth_hubot']['home']}/.ssh/id_rsa" do
