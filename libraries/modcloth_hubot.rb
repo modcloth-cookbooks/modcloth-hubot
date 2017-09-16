@@ -43,6 +43,12 @@ module ModClothHubot
 
   module_function :ensure_hashed_password
 
+  def npm_install
+    Mixlib::ShellOut.new(
+      "su - #{node['modcloth_hubot']['user']} -c 'cd #{node['modcloth_hubot']['home']}/current && npm install --production'" # rubocop:disable LineLength
+    )
+  end
+
   private
 
   def restart_start_ubuntu
@@ -63,6 +69,21 @@ module ModClothHubot
       ),
       Mixlib::ShellOut.new(
         "svcadm enable -s #{node['modcloth_hubot']['service_name']}"
+      )
+    ]
+  end
+
+  def restart_start_centos
+    restart_start_systemd
+  end
+
+  def restart_start_systemd
+    [
+      Mixlib::ShellOut.new(
+        "systemctl restart #{node['modcloth_hubot']['service_name']}"
+      ),
+      Mixlib::ShellOut.new(
+        "systemctl enable #{node['modcloth_hubot']['service_name']}"
       )
     ]
   end

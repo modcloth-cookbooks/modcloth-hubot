@@ -1,0 +1,19 @@
+# Managed by Chef
+
+[Service]
+ExecStart=<%= @exec_start %>
+RestartSec=500ms
+Restart=always
+WorkingDirectory=<%= @working_directory %>
+User=<%= @user %>
+Group=<%= @group %>
+<% @environment.each do |name, value| -%>
+Environment=<%= name %>=<%= value %>
+<% end -%>
+
+[Unit]
+Description=<%= @description %>
+After=systemd-network.service
+
+[Install]
+WantedBy=multi-user.target
