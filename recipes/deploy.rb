@@ -69,7 +69,7 @@ template "/etc/systemd/system/#{node['modcloth_hubot']['service_name']}.service"
   variables(
     user: node['modcloth_hubot']['user'],
     group: node['modcloth_hubot']['group'],
-    exec_start: '/bin/npm start',
+    exec_start: node['modcloth_hubot']['systemd']['exec_start'],
     working_directory: "#{node['modcloth_hubot']['home']}/current",
     environment: Mash.new({
         HOME: node['modcloth_hubot']['home'],
