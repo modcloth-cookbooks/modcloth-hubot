@@ -74,6 +74,8 @@ default['modcloth_hubot']['nginx']['ssl']['key_file'] = nil
 default['modcloth_hubot']['redis']['enabled'] = true
 default['modcloth_hubot']['redis']['packages'] = %w(redis-server)
 
+default['modcloth_hubot']['systemd']['exec_start'] = '/bin/npm start'
+
 default['modcloth_hubot']['install_git'] = true
 default['modcloth_hubot']['install_nodejs'] = true
 
