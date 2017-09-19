@@ -56,6 +56,36 @@ smf node['modcloth_hubot']['service_name'] do
   only_if { platform?('smartos') }
 end
 
+execute 'systemctl daemon-reload' do
+  action :nothing
+end
+
+template "/etc/systemd/system/#{node['modcloth_hubot']['service_name']}.service" do
+  source 'systemd.service.erb'
+  user 'root'
+  group 'root'
+  mode 0o0640
+
+  variables(
+    user: node['modcloth_hubot']['user'],
+    group: node['modcloth_hubot']['group'],
+    exec_start: node['modcloth_hubot']['systemd']['exec_start'],
+    working_directory: "#{node['modcloth_hubot']['home']}/current",
+    environment: Mash.new({
+        HOME: node['modcloth_hubot']['home'],
+        PATH: '/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin'
+      }).merge(node['modcloth_hubot']['environment'] || Mash.new({})),
+    description: node['modcloth_hubot']['service_name']
+  )
+
+  action :create
+
+  only_if { platform?('centos') }
+
+  notifies :run, 'execute[systemctl daemon-reload]', :immediately
+  notifies :restart, "service[#{node['modcloth_hubot']['service_name']}]"
+end
+
 service_provider = value_for_platform(
   'ubuntu' => {
     'default' => Chef::Provider::Service::Upstart
@@ -63,11 +93,15 @@ service_provider = value_for_platform(
   'smartos' => {
     'default' => Chef::Provider::Service::Solaris
   },
+  'default' => {
+    'default' => nil
+  }
 )
 
 service node['modcloth_hubot']['service_name'] do
-  provider service_provider
+  provider service_provider if service_provider['default']
   supports start: true, restart: true, stop: true
+  action :enable
 end
 
 %W(
@@ -106,6 +140,13 @@ deploy_revision node['modcloth_hubot']['home'] do
   migrate false
   rollback_on_error node['modcloth_hubot']['rollback_on_error']
   symlinks 'node_modules' => 'node_modules'
+
+  before_restart do
+    ruby_block 'npm install' do
+      # make sure we install all the npm dependencies
+      block { npm_install.run_command }
+    end
+  end
 
   restart_command do
     ruby_block "restart #{node['modcloth_hubot']['service_name']}" do
