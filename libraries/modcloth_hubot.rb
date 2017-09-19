@@ -45,7 +45,7 @@ module ModClothHubot
 
   def npm_install
     Mixlib::ShellOut.new(
-      "su - #{node['modcloth_hubot']['user']} -c 'cd #{node['modcloth_hubot']['home']}/current && npm install --production'" # rubocop:disable LineLength
+      "su - #{node['modcloth_hubot']['user']} -c 'cd #{node['modcloth_hubot']['home']}/current && rm -f package-lock.json && rm -rf node_modules/* && npm install --production'" # rubocop:disable LineLength
     )
   end
 
